@@ -6,12 +6,13 @@ import Navigation from "./Nav/Navigation";
 import UserContext from "./context/UserContext";
 import jwt from "jsonwebtoken";
 import Routes from "./Routes";
-import SavePageLocation from "./hooks/savePageLocation";
+
 
 export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
+    // const [token, setToken] = useLocalStorage("token", null);
 
   const [currentUser, setCurrentUser] = useState({
     data: null,
@@ -76,12 +77,15 @@ function App() {
     setToken(null);
   }
 
+
+
   /** Handle site-wide user login */
 
   async function login(loginData) {
     let token = await UrGuideApi.login(loginData);
     setToken(token);
   }
+
 
   /** Handles site-wide new user signup */
   async function signup(signupData) {

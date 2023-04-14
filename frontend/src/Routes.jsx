@@ -15,9 +15,6 @@ function Routes({
   signup,
   updateProfile,
   currentUser,
-  like,
-  dislike,
-  dislikeMatch,
   potentialMatches,
   likedMatches,
   matchInfo,
@@ -64,10 +61,7 @@ function Routes({
               <LikeMatchList
                 likedMatches={likedMatches}
                 getLikedMatches={getLikedMatches}
-                // dislike={dislike}
-                // dislike={dislikeMatch}
               />
-              {/* <MatchCard like={like} dislike={dislikeMatch} /> */}
             </PrivateRoute>
           </>
         )}
