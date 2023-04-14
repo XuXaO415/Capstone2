@@ -30,6 +30,8 @@ CREATE DATABASE urguide_test;
 \echo "Creating database..."
 \connect urguide_test
 
+\i urguide-schema.sql
+
 
 
 
