@@ -2,6 +2,7 @@
 const request = require("supertest");
 const app = require("../app");
 
+
 const {
     commonBeforeAll,
     commonBeforeEach,
@@ -13,6 +14,23 @@ beforeAll(commonBeforeAll);
 beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
+
+describe("POST /auth/token", function() {
+    test("works", async function() {
+        const resp = await request(app).post("/auth/token").send({
+            username: "jdoe",
+            password: "password",
+        });
+
+        expect(resp.status).toBe(200);
+        expect(resp.body).toEqual({
+            token: expect.any(String),
+            user: {
+                username: "jdoe",
+            },
+        });
+    });
+});
 
 test("unauth if no such user", async function() {
     const resp = await request(app).post("/auth/token").send({
@@ -37,6 +55,8 @@ test("bad request with missing data", async function() {
     expect(resp.statusCode).toEqual(400);
 });
 
+
+
 test("bad request with invalid data", async function() {
     const resp = await request(app).post("/auth/token").send({
         username: 42,
@@ -44,6 +64,8 @@ test("bad request with invalid data", async function() {
     });
     expect(resp.statusCode).toEqual(400);
 });
+
+
 
 describe("POST /auth/register", function() {
     test("works", async function() {
