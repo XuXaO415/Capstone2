@@ -6,7 +6,7 @@ require("colors");
 const { Pool } = require("pg");
 
 const pool = new Pool({
-  connectionString: getDatabaseUri(),
+    connectionString: getDatabaseUri(),
 });
 
 // const pool = new Pool({
@@ -22,9 +22,9 @@ const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
 const PORT = +process.env.PORT || 3001;
 
 function getDatabaseUri() {
-  return process.env.NODE_ENV === "test"
-    ? "urguide_test"
-    : process.env.DATABASE_URL || "urguide";
+    return process.env.NODE_ENV === "test" ?
+        "urguide_test" :
+        process.env.DATABASE_URL || "urguide";
 }
 
 const DATABASE_URL = pool;
@@ -46,9 +46,9 @@ console.log("Database:".red, getDatabaseUri());
 console.log("----------------------------------");
 
 module.exports = {
-  SECRET_KEY,
-  PORT,
-  getDatabaseUri,
-  BCRYPT_WORK_FACTOR,
-  pool,
+    SECRET_KEY,
+    PORT,
+    getDatabaseUri,
+    BCRYPT_WORK_FACTOR,
+    pool,
 };

@@ -25,12 +25,12 @@ afterAll(commonAfterAll);
 
 describe("authenticate", function() {
     test("works", async function() {
-        const user = await User.authenticate("testuser", "123123123");
+        const user = await User.authenticate("jDoe", "password1");
         expect(user).toEqual({
-            username: "testuser",
-            firstName: "test",
-            lastName: "user",
-            email: "testuser@email.com",
+            username: "jdoe",
+            firstName: "Jane",
+            lastName: "Doe",
+            email: "test@email.com",
             isAdmin: false,
         });
     });
@@ -43,6 +43,7 @@ describe("authenticate", function() {
         } catch (err) {
             expect(err instanceof UnauthorizedError).toBeTruthy();
         }
+        return expect(User.authenticate("nope", "password")).rejects.toThrow(UnauthorizedError);
     });
 });
 
