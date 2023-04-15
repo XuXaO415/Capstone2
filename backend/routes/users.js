@@ -6,11 +6,11 @@ const jsonschema = require("jsonschema");
 
 const express = require("express");
 const {
-  ensureCorrectUserOrAdmin,
-  ensureAdmin,
-  authenticateJWT,
-  ensureCorrectUser,
-  ensureLoggedIn,
+    ensureCorrectUserOrAdmin,
+    ensureAdmin,
+    authenticateJWT,
+    ensureCorrectUser,
+    ensureLoggedIn,
 } = require("../middleware/auth");
 const { BadRequestError } = require("../expressError");
 const User = require("../models/user");
@@ -36,23 +36,23 @@ const router = express.Router();
  * ensureAdmin,
  **/
 
-router.post("/", ensureAdmin, async function (req, res, next) {
-  try {
-    const validator = jsonschema.validate(req.body, userNewSchema);
-    if (!validator.valid) {
-      const errs = validator.errors.map((e) => e.stack);
-      throw new BadRequestError(errs);
-    }
+router.post("/", ensureAdmin, async function(req, res, next) {
+    try {
+        const validator = jsonschema.validate(req.body, userNewSchema);
+        if (!validator.valid) {
+            const errs = validator.errors.map((e) => e.stack);
+            throw new BadRequestError(errs);
+        }
 
-    const user = await User.register(req.body);
-    const token = createToken(user);
-    return res.status(201).json({
-      user,
-      token,
-    });
-  } catch (err) {
-    return next(err);
-  }
+        const user = await User.register(req.body);
+        const token = createToken(user);
+        return res.status(201).json({
+            user,
+            token,
+        });
+    } catch (err) {
+        return next(err);
+    }
 });
 
 /** POST /users/login { user } => { token }
@@ -64,17 +64,17 @@ router.post("/", ensureAdmin, async function (req, res, next) {
  *  Authorization required: user
  * */
 
-router.post("/login", async function (req, res, next) {
-  try {
-    const { username, password } = req.body;
-    const user = await User.authenticate(username, password);
-    const token = createToken(user);
-    return res.json({
-      token,
-    });
-  } catch (err) {
-    return next(err);
-  }
+router.post("/login", async function(req, res, next) {
+    try {
+        const { username, password } = req.body;
+        const user = await User.authenticate(username, password);
+        const token = createToken(user);
+        return res.json({
+            token,
+        });
+    } catch (err) {
+        return next(err);
+    }
 });
 
 /** GET /users => { users: [ { username, firstName, lastName, email, isAdmin }, ...] }
@@ -86,15 +86,15 @@ router.post("/login", async function (req, res, next) {
  * ensureAdmin, authenticateJWT,
  * */
 
-router.get("/", ensureAdmin, authenticateJWT, async function (req, res, next) {
-  try {
-    const users = await User.findAll();
-    return res.json({
-      users,
-    });
-  } catch (err) {
-    return next(err);
-  }
+router.get("/", async function(req, res, next) {
+    try {
+        const users = await User.findAll();
+        return res.json({
+            users,
+        });
+    } catch (err) {
+        return next(err);
+    }
 });
 
 /** GET /users/[username] => { user }
@@ -108,21 +108,21 @@ router.get("/", ensureAdmin, authenticateJWT, async function (req, res, next) {
  **/
 
 router.get(
-  "/:username",
-  ensureAdmin,
-  ensureCorrectUser,
-  async function (req, res, next) {
-    try {
-      let user = await User.get(req.params.username);
-      // console.log("req.params.username=", req.params.username);
-      return res.json({
-        user,
-        currentUser: req.params.username,
-      });
-    } catch (err) {
-      return next(err);
+    "/:username",
+    ensureAdmin,
+    ensureCorrectUser,
+    async function(req, res, next) {
+        try {
+            let user = await User.get(req.params.username);
+            // console.log("req.params.username=", req.params.username);
+            return res.json({
+                user,
+                currentUser: req.params.username,
+            });
+        } catch (err) {
+            return next(err);
+        }
     }
-  }
 );
 
 /** PATCH /[username] { fld1, fld2, ... } => { user }
@@ -137,24 +137,24 @@ router.get(
  * */
 
 router.patch(
-  "/:username",
-  ensureCorrectUserOrAdmin,
-  async function (req, res, next) {
-    try {
-      const validator = jsonschema.validate(req.body, userUpdateSchema);
-      if (!validator.valid) {
-        const errs = validator.errors.map((e) => e.stack);
-        throw new BadRequestError(errs);
-      }
+    "/:username",
+    ensureCorrectUserOrAdmin,
+    async function(req, res, next) {
+        try {
+            const validator = jsonschema.validate(req.body, userUpdateSchema);
+            if (!validator.valid) {
+                const errs = validator.errors.map((e) => e.stack);
+                throw new BadRequestError(errs);
+            }
 
-      const user = await User.update(req.params.username, req.body);
-      return res.json({
-        user,
-      });
-    } catch (err) {
-      return next(err);
+            const user = await User.update(req.params.username, req.body);
+            return res.json({
+                user,
+            });
+        } catch (err) {
+            return next(err);
+        }
     }
-  }
 );
 
 /** DELETE /[username]  =>  { deleted: username }
@@ -163,18 +163,18 @@ router.patch(
  * */
 
 router.delete(
-  "/:username",
-  ensureCorrectUserOrAdmin,
-  async function (req, res, next) {
-    try {
-      await User.remove(req.params.username);
-      return res.json({
-        deleted: req.params.username,
-      });
-    } catch (err) {
-      return next(err);
+    "/:username",
+    ensureCorrectUserOrAdmin,
+    async function(req, res, next) {
+        try {
+            await User.remove(req.params.username);
+            return res.json({
+                deleted: req.params.username,
+            });
+        } catch (err) {
+            return next(err);
+        }
     }
-  }
 );
 
 /** GET /users/:username/[user_id] = {user_id}
@@ -185,101 +185,101 @@ router.delete(
  *
  * */
 
-router.get("/:username/:user_id", async function (req, res, next) {
-  try {
-    let user = await User.getUserById(req.params.user_id);
-    console.log(
-      "req.params.username=",
-      req.params.username,
-      "req.params.user_id=",
-      req.params.user_id
-    );
-    return res.json({
-      user,
-      currentUser: req.params.username,
-      user_id: req.params.user_id,
-    });
-  } catch (err) {
-    return next(err);
-  }
+router.get("/:username/:user_id", async function(req, res, next) {
+    try {
+        let user = await User.getUserById(req.params.user_id);
+        console.log(
+            "req.params.username=",
+            req.params.username,
+            "req.params.user_id=",
+            req.params.user_id
+        );
+        return res.json({
+            user,
+            currentUser: req.params.username,
+            user_id: req.params.user_id,
+        });
+    } catch (err) {
+        return next(err);
+    }
 });
 
-router.get("/:username/matches/users", async function (req, res, next) {
-  try {
-    let currentUser = await User.get(req.params.username);
-    let users = await User.matchUsers(currentUser.username, req.params.user_id);
-    return res.json({
-      currentUser: req.params.username,
-      users,
-    });
-  } catch (err) {
-    return next(err);
-  }
+router.get("/:username/matches/users", async function(req, res, next) {
+    try {
+        let currentUser = await User.get(req.params.username);
+        let users = await User.matchUsers(currentUser.username, req.params.user_id);
+        return res.json({
+            currentUser: req.params.username,
+            users,
+        });
+    } catch (err) {
+        return next(err);
+    }
 });
 
-router.get("/:username/matches/likes", async function (req, res, next) {
-  try {
-    let currentUser = await User.get(req.params.username);
-    let users = await User.getLikes(req.params.user_id);
+router.get("/:username/matches/likes", async function(req, res, next) {
+    try {
+        let currentUser = await User.get(req.params.username);
+        let users = await User.getLikes(req.params.user_id);
 
-    console.log(
-      "currentUser=",
-      req.params.username,
-      "usersLoaded=",
-      Boolean(users)
-    );
-    return res.json({
-      users,
-      currentUser,
-      user_id: req.params.user_id,
-    });
-  } catch (err) {
-    return res.status(err.res.status).json(err.res.data);
-  }
+        console.log(
+            "currentUser=",
+            req.params.username,
+            "usersLoaded=",
+            Boolean(users)
+        );
+        return res.json({
+            users,
+            currentUser,
+            user_id: req.params.user_id,
+        });
+    } catch (err) {
+        return res.status(err.res.status).json(err.res.data);
+    }
 });
 
 router.post(
-  "/:username/matches/like/:user_id",
-  async function (req, res, next) {
-    try {
-      let currentUser = await User.get(req.params.username);
-      let user = await User.likeMatch(req.params.user_id, currentUser.user_id);
-      return res.json({
-        user,
-        username: req.params.username,
-        user_id: req.params.user_id,
-      });
-    } catch (err) {
-      if (err.res) {
-        return res.status(err.res.status).json(err.res.data);
-      }
+    "/:username/matches/like/:user_id",
+    async function(req, res, next) {
+        try {
+            let currentUser = await User.get(req.params.username);
+            let user = await User.likeMatch(req.params.user_id, currentUser.user_id);
+            return res.json({
+                user,
+                username: req.params.username,
+                user_id: req.params.user_id,
+            });
+        } catch (err) {
+            if (err.res) {
+                return res.status(err.res.status).json(err.res.data);
+            }
+        }
     }
-  }
 );
 
 router.post(
-  "/:username/matches/dislike/:user_id",
-  async function (req, res, next) {
-    try {
-      let currentUser = await User.get(req.params.username);
+    "/:username/matches/dislike/:user_id",
+    async function(req, res, next) {
+        try {
+            let currentUser = await User.get(req.params.username);
 
-      let user = await User.unlikeMatch(
-        req.params.user_id,
-        currentUser.user_id
-      );
-      console.log(currentUser.user_id, req.params.user_id);
+            let user = await User.unlikeMatch(
+                req.params.user_id,
+                currentUser.user_id
+            );
+            console.log(currentUser.user_id, req.params.user_id);
 
-      return res.json({
-        user,
-        currentUser,
-        // user_id: req.params.user_id,
-      });
-    } catch (err) {
-      if (err.res) {
-        return res.status(err.res.status).json(err.res.data);
-      }
+            return res.json({
+                user,
+                currentUser,
+                // user_id: req.params.user_id,
+            });
+        } catch (err) {
+            if (err.res) {
+                return res.status(err.res.status).json(err.res.data);
+            }
+        }
     }
-  }
 );
 
 // router.post(
@@ -332,18 +332,18 @@ router.post(
 //   }
 // );
 
-router.get("/:username/matches/user/:user_id", async function (req, res, next) {
-  try {
-    let currentUser = await User.get(req.params.username);
-    let user = await User.getUserInfo(req.params.user_id);
-    console.log(req.params.user_id);
-    return res.json({
-      user,
-      currentUser,
-    });
-  } catch (err) {
-    return next(err);
-  }
+router.get("/:username/matches/user/:user_id", async function(req, res, next) {
+    try {
+        let currentUser = await User.get(req.params.username);
+        let user = await User.getUserInfo(req.params.user_id);
+        console.log(req.params.user_id);
+        return res.json({
+            user,
+            currentUser,
+        });
+    } catch (err) {
+        return next(err);
+    }
 });
 
 module.exports = router;

@@ -18,19 +18,22 @@ app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
-app.user("/", usersRoutes);
 app.use("/auth", authRoutes);
-app.use("/auth/register", authRoutes);
 app.use("/users", usersRoutes);
-app.use("/users/:username", usersRoutes);
-app.use("/users/username/:user_id", usersRoutes);
-app.use("/users/:username/matches", usersRoutes);
-app.use("/users/:username/matches/users", usersRoutes);
-app.use("/users/:username/matches/:user_id", usersRoutes);
-app.use("/users/:username/matches/user/:user_id", usersRoutes);
-app.use("/users/:username/matches/likes", usersRoutes);
-app.use("/users/:username/matches/like/:user_id", usersRoutes);
-app.use("/users/:username/matches/dislike/:user_id", usersRoutes);
+
+// app.use("/", usersRoutes);
+// app.use("/auth", authRoutes);
+// app.use("/auth/register", authRoutes);
+// app.use("/users", usersRoutes);
+// app.use("/users/:username", usersRoutes);
+// app.use("/users/username/:user_id", usersRoutes);
+// app.use("/users/:username/matches", usersRoutes);
+// app.use("/users/:username/matches/users", usersRoutes);
+// app.use("/users/:username/matches/:user_id", usersRoutes);
+// app.use("/users/:username/matches/user/:user_id", usersRoutes);
+// app.use("/users/:username/matches/likes", usersRoutes);
+// app.use("/users/:username/matches/like/:user_id", usersRoutes);
+// app.use("/users/:username/matches/dislike/:user_id", usersRoutes);
 
 //Handles 404 errors
 app.use(function(req, res, next) {
