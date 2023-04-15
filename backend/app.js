@@ -18,6 +18,7 @@ app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
+app.user("/", usersRoutes);
 app.use("/auth", authRoutes);
 app.use("/auth/register", authRoutes);
 app.use("/users", usersRoutes);
