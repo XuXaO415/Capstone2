@@ -25,7 +25,7 @@ afterAll(commonAfterAll);
 
 describe("authenticate", function() {
     test("works", async function() {
-        const user = await User.authenticate("jDoe", "password1");
+        const user = await User.authenticate("jdoe", "password1");
         expect(user).toEqual({
             username: "jdoe",
             firstName: "Jane",
@@ -35,7 +35,6 @@ describe("authenticate", function() {
         });
     });
 
-
     test("unauth if no such user", async function() {
         try {
             await User.authenticate("nope", "password");
@@ -43,18 +42,20 @@ describe("authenticate", function() {
         } catch (err) {
             expect(err instanceof UnauthorizedError).toBeTruthy();
         }
-        return expect(User.authenticate("nope", "password")).rejects.toThrow(UnauthorizedError);
+    });
+
+
+    test("unauth if wrong password", async function() {
+        try {
+            await User.authenticate("jdoe", "wrong");
+            fail();
+        } catch (err) {
+            expect(err instanceof UnauthorizedError).toBeTruthy();
+        }
     });
 });
 
-test("throws UnauthorizedError if invalid password", async function() {
-    try {
-        await User.authenticate("jdoe", "wrongpassword");
-        fail();
-    } catch (err) {
-        expect(err instanceof UnauthorizedError).toBeTruthy();
-    }
-});
+
 
 test("throws UnauthorizedError if user is not authenticated", async function() {
     try {
