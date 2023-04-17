@@ -109,8 +109,7 @@ router.get("/", async function(req, res, next) {
 
 router.get(
     "/:username",
-    ensureAdmin,
-    ensureCorrectUser,
+    ensureCorrectUserOrAdmin,
     async function(req, res, next) {
         try {
             let user = await User.get(req.params.username);
