@@ -13,15 +13,18 @@ const morgan = require("morgan");
 
 const app = express();
 
-app.use(cors({
-    origin: "https://urguide.surge.sh/"
-}));
+
+// app.use(cors({
+//     origin: "https://urguide.surge.sh/"
+// }));
+
+app.use(cors());
 app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
-// app.use("/auth", authRoutes);
-// app.use("/users", usersRoutes);
+app.use("/auth", authRoutes);
+app.use("/users", usersRoutes);
 
 app.use("/", usersRoutes);
 app.use("/auth", authRoutes);

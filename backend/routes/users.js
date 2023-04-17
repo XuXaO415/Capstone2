@@ -21,7 +21,7 @@ const userLikeSchema = require("../schemas/userLike.json");
 const userMatchSchema = require("../schemas/userMatch.json");
 // const userRegisterSchema = require("../schemas/userRegister.json");
 
-const router = express.Router();
+const router = new express.Router();
 
 /** POST / { user }  => { user, token }
  *

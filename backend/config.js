@@ -9,13 +9,6 @@ const pool = new Pool({
     connectionString: getDatabaseUri(),
 });
 
-// const pool = new Pool({
-//   user: "testuser",
-//   host: "localhost",
-//   database: "urguide",
-//   password: "123123123",
-//   port: 5000,
-// });
 
 const SECRET_KEY = process.env.SECRET_KEY || "secret-dev";
 
