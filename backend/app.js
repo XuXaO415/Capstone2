@@ -23,13 +23,15 @@ app.use(express.json());
 app.use(morgan("tiny"));
 app.use(authenticateJWT);
 
-app.use("/auth", authRoutes);
-app.use("/users", usersRoutes);
+// app.use("/auth", authRoutes);
+// app.use("/users", usersRoutes);
 
 app.use("/", usersRoutes);
 app.use("/auth", authRoutes);
-app.use("/auth/register", authRoutes);
 app.use("/users", usersRoutes);
+app.use("/auth/token", authRoutes);
+app.use("/auth/register", authRoutes);
+
 app.use("/users/:username", usersRoutes);
 app.use("/users/username/:user_id", usersRoutes);
 app.use("/users/:username/matches", usersRoutes);
