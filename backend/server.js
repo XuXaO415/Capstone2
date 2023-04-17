@@ -9,9 +9,9 @@ const { PORT } = require("./config");
 //     res.send('CORS Enabled Express Server');
 // });
 
-// app.get('/cors', (req, res) => {
-//     res.send('CORS enabled')
-// });
+app.get('/cors', (req, res) => {
+    res.send('CORS enabled')
+});
 
 
 
