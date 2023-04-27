@@ -119,9 +119,16 @@ class UrGuideApi {
       {},
       "POST"
     );
-    console.log("POST was successful and", { currentUser }, "liked", {
-      user_id
-    });
+    console.log(
+      "POST was successful and",
+      {
+        currentUser
+      },
+      "liked",
+      {
+        user_id
+      }
+    );
     return res.status;
   }
 
@@ -130,22 +137,22 @@ class UrGuideApi {
       `users/${currentUser}/matches/dislike/${user_id}`,
       {},
       "POST"
-      // { currentUser, user_id }
     );
-    // console.log("currentUser:", currentUser, "user_id:", user_id);
-    console.log("res from dislikeMatch:", res, { currentUser }, "disliked", {
-      user_id
-    });
+    console.log(
+      "res from dislikeMatch:",
+      res,
+      {
+        currentUser
+      },
+      "disliked",
+      {
+        user_id
+      }
+    );
     return res.status;
   }
 }
 
 /* ************************************************************* */
-
-// Temporary API token for testing -- CHANGE THIS LATER ONCE EVERYTHING IS WORKING!
-// UrGuideApi.token =
-//   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
-//   "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
-//   "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
 
 export default UrGuideApi;
