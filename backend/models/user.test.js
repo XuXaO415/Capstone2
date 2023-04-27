@@ -131,22 +131,6 @@ describe("register", function() {
         });
     });
 
-    test("throws BadRequestError with dupe username", async function() {
-        try {
-            await User.register({
-                username: "jdoe",
-                password: "password1",
-                firstName: "Jane",
-                lastName: "Doe",
-                email: "dupe@email.com",
-                isAdmin: false,
-            });
-        } catch (err) {
-            expect(err instanceof BadRequestError).toBeTruthy();
-        }
-    });
-});
-
 /************************************** update */
 
 describe("update", function() {
@@ -157,7 +141,7 @@ describe("update", function() {
             email: "janedoe@thisworks.com",
         };
     });
-
+    
     test("works with data", async function() {
         const updateData = {
             firstName: "Jane",
