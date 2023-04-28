@@ -1,24 +1,14 @@
 "use strict";
 
-/** Routes for users. */
-
 const jsonschema = require("jsonschema");
 
 const express = require("express");
-const {
-    ensureCorrectUserOrAdmin,
-    ensureAdmin,
-    authenticateJWT,
-    ensureCorrectUser,
-    ensureLoggedIn
-} = require("../middleware/auth");
+const {ensureCorrectUserOrAdmin, ensureAdmin, authenticateJWT, ensureCorrectUser} = require("../middleware/auth");
 const {BadRequestError} = require("../expressError");
 const User = require("../models/user");
 let {createToken} = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
-const userLikeSchema = require("../schemas/userLike.json");
-const userMatchSchema = require("../schemas/userMatch.json");
 
 const router = new express.Router();
 
@@ -210,9 +200,9 @@ router.post("/:username/matches/like/:user_id", async function (req, res, next) 
 });
 
 /** POST /users/:username/matches/dislike/:user_id = {user}
- * 
+ *
  * Posts disliked user to the database.
- *   
+ *
  */
 router.post("/:username/matches/dislike/:user_id", async function (req, res, next) {
     try {
@@ -229,9 +219,9 @@ router.post("/:username/matches/dislike/:user_id", async function (req, res, nex
 });
 
 /** GET /users/:username/matches/user/:user_id = {user}
- * 
+ *
  * Returns a user's info.
- * 
+ *
  */
 
 router.get("/:username/matches/user/:user_id", async function (req, res, next) {
