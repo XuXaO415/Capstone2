@@ -13,6 +13,7 @@ const { BCRYPT_WORK_FACTOR } = require("../config");
 
 class User {
   /** Authenticate user using username and password.
+   *
    * Returns { first_name, last_name, username, email, is_admin }.
    *
    * Throws UnauthorizedError if user not found or wrong password.
@@ -138,6 +139,13 @@ class User {
     return user;
   }
 
+  /* Get user by id.
+   *
+   * Returns { id, username, first_name, last_name, email, is_admin }.
+   *
+   * Throws NotFoundError if user not found.
+   */
+
   static async getUserById(id) {
     const userRes = await db.query(
       `SELECT id AS "user_id", username, first_name AS "firstName", last_name AS "lastName", email, is_admin AS "isAdmin"
@@ -152,6 +160,12 @@ class User {
 
     return user;
   }
+
+  /* Get all users.
+   *
+   * Returns [{ username, first_name, last_name, email, is_admin }, ...]
+   *
+   */
 
   static async findAll() {
     const result = await db.query(
@@ -244,12 +258,6 @@ class User {
       users[0].zip_code = users[0].state;
       users[0].message = "No zip code for this country";
     }
-
-    // if (users[0].country !== users[1].country) {
-    //   users[1].zip_code = 0;
-    //   users[1].message = "No zip code for this country";
-    // }
-
     return users;
   }
 
@@ -310,6 +318,7 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
   }
+
   static async updateDislikedMatch(id, user_id) {
     const result = await db.query(
       `INSERT INTO dislikes
