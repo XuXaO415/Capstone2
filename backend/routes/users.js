@@ -10,16 +10,15 @@ const {
     ensureAdmin,
     authenticateJWT,
     ensureCorrectUser,
-    ensureLoggedIn,
+    ensureLoggedIn
 } = require("../middleware/auth");
-const { BadRequestError } = require("../expressError");
+const {BadRequestError} = require("../expressError");
 const User = require("../models/user");
-let { createToken } = require("../helpers/tokens");
+let {createToken} = require("../helpers/tokens");
 const userNewSchema = require("../schemas/userNew.json");
 const userUpdateSchema = require("../schemas/userUpdate.json");
 const userLikeSchema = require("../schemas/userLike.json");
 const userMatchSchema = require("../schemas/userMatch.json");
-// const userRegisterSchema = require("../schemas/userRegister.json");
 
 const router = new express.Router();
 
@@ -32,24 +31,20 @@ const router = new express.Router();
  * This returns the newly created user and an authentication token for them:
  *  {user: { username, firstName, lastName, email, isAdmin }, token }
  *
- * Authorization required: admin
- * ensureAdmin,
- **/
+ * Authorization required: ensureAdmin
+ */
 
-router.post("/", ensureAdmin, async function(req, res, next) {
+router.post("/", ensureAdmin, async function (req, res, next) {
     try {
         const validator = jsonschema.validate(req.body, userNewSchema);
-        if (!validator.valid) {
+        if (! validator.valid) {
             const errs = validator.errors.map((e) => e.stack);
             throw new BadRequestError(errs);
         }
 
         const user = await User.register(req.body);
         const token = createToken(user);
-        return res.status(201).json({
-            user,
-            token,
-        });
+        return res.status(201).json({user, token});
     } catch (err) {
         return next(err);
     }
@@ -62,16 +57,14 @@ router.post("/", ensureAdmin, async function(req, res, next) {
  * Returns JWT token which can be used to authenticate further requests.
  *
  *  Authorization required: user
- * */
+ */
 
-router.post("/login", async function(req, res, next) {
+router.post("/login", async function (req, res, next) {
     try {
-        const { username, password } = req.body;
+        const {username, password} = req.body;
         const user = await User.authenticate(username, password);
         const token = createToken(user);
-        return res.json({
-            token,
-        });
+        return res.json({token});
     } catch (err) {
         return next(err);
     }
@@ -84,45 +77,33 @@ router.post("/login", async function(req, res, next) {
  * Authorization required: admin, auth with JWT
  *
  * ensureAdmin, authenticateJWT,
- * */
+ */
 
-router.get("/", async function(req, res, next) {
+router.get("/", ensureCorrectUser, async function (req, res, next) {
     try {
         const users = await User.findAll();
-        return res.json({
-            users,
-        });
+        return res.json({users});
     } catch (err) {
         return next(err);
     }
 });
 
 /** GET /users/[username] => { user }
- *  *
+ *
  * Returns { username, firstName, lastName, email, phone, city, country, zipCode, imageUrl, hobbies, interests, isAdmin }
  *
- * Authorization required: admin or same user-as-:username
+ * Authorization required: admin or same user-as-:username -- ensureCorrectUserOrAdmin
  *
- *   ensureCorrectUserOrAdmin,
- *    ensureCorrectUser,
- **/
-
-router.get(
-    "/:username",
-    ensureCorrectUserOrAdmin,
-    async function(req, res, next) {
-        try {
-            let user = await User.get(req.params.username);
-            // console.log("req.params.username=", req.params.username);
-            return res.json({
-                user,
-                currentUser: req.params.username,
-            });
-        } catch (err) {
-            return next(err);
-        }
+ */
+router.get("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    try {
+        let user = await User.get(req.params.username);
+        // console.log("req.params.username=", req.params.username);
+        return res.json({user, currentUser: req.params.username});
+    } catch (err) {
+        return next(err);
     }
-);
+});
 
 /** PATCH /[username] { fld1, fld2, ... } => { user }
  *
@@ -130,216 +111,135 @@ router.get(
  *
  * Returns { username, firstName, lastName, email, phone, city, country, zipCode, imageUrl, hobbies, interests, isAdmin }
  *
- * Authorization required: admin or same-user-as:username
+ * Authorization required: admin or same-user-as:username -- ensureCorrectUserOrAdmin
  *
- *
- * */
+ */
 
-router.patch(
-    "/:username",
-    ensureCorrectUserOrAdmin,
-    async function(req, res, next) {
-        try {
-            const validator = jsonschema.validate(req.body, userUpdateSchema);
-            if (!validator.valid) {
-                const errs = validator.errors.map((e) => e.stack);
-                throw new BadRequestError(errs);
-            }
-
-            const user = await User.update(req.params.username, req.body);
-            return res.json({
-                user,
-            });
-        } catch (err) {
-            return next(err);
+router.patch("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    try {
+        const validator = jsonschema.validate(req.body, userUpdateSchema);
+        if (! validator.valid) {
+            const errs = validator.errors.map((e) => e.stack);
+            throw new BadRequestError(errs);
         }
+        const user = await User.update(req.params.username, req.body);
+        return res.json({user});
+    } catch (err) {
+        return next(err);
     }
-);
+});
 
 /** DELETE /[username]  =>  { deleted: username }
  *
- * Authorization: admin or same-user-as:username
- * */
+ * Authorization: admin or same-user-as:username -- ensureCorrectUserOrAdmin
+ *
+ */
 
-router.delete(
-    "/:username",
-    ensureCorrectUserOrAdmin,
-    async function(req, res, next) {
-        try {
-            await User.remove(req.params.username);
-            return res.json({
-                deleted: req.params.username,
-            });
-        } catch (err) {
-            return next(err);
-        }
+router.delete("/:username", ensureCorrectUserOrAdmin, async function (req, res, next) {
+    try {
+        await User.remove(req.params.username);
+        return res.json({deleted: req.params.username});
+    } catch (err) {
+        return next(err);
     }
-);
+});
 
 /** GET /users/:username/[user_id] = {user_id}
  *
- * Returns basic user info
+ * Returns basic user info.
  *
- * Todo: add user authentication
- *
- * */
+ */
 
-router.get("/:username/:user_id", async function(req, res, next) {
+router.get("/:username/:user_id", async function (req, res, next) {
     try {
         let user = await User.getUserById(req.params.user_id);
-        console.log(
-            "req.params.username=",
-            req.params.username,
-            "req.params.user_id=",
-            req.params.user_id
-        );
-        return res.json({
-            user,
-            currentUser: req.params.username,
-            user_id: req.params.user_id,
-        });
+        console.log("req.params.username=", req.params.username, "req.params.user_id=", req.params.user_id);
+        return res.json({user, currentUser: req.params.username, user_id: req.params.user_id});
     } catch (err) {
         return next(err);
     }
 });
 
-router.get("/:username/matches/users", async function(req, res, next) {
+/** GET /users/:username/matches/users = {users}
+ *
+ * Returns users that match the current user.
+ *
+ */
+
+router.get("/:username/matches/users", async function (req, res, next) {
     try {
         let currentUser = await User.get(req.params.username);
         let users = await User.matchUsers(currentUser.username, req.params.user_id);
-        return res.json({
-            currentUser: req.params.username,
-            users,
-        });
+        return res.json({currentUser: req.params.username, users});
     } catch (err) {
         return next(err);
     }
 });
 
-router.get("/:username/matches/likes", async function(req, res, next) {
+/** GET /users/:username/matches/likes = {users}
+ *
+ * Returns users that the current user has liked.
+ *
+ */
+router.get("/:username/matches/likes", async function (req, res, next) {
     try {
         let currentUser = await User.get(req.params.username);
         let users = await User.getLikes(req.params.user_id);
 
-        console.log(
-            "currentUser=",
-            req.params.username,
-            "usersLoaded=",
-            Boolean(users)
-        );
-        return res.json({
-            users,
-            currentUser,
-            user_id: req.params.user_id,
-        });
+        console.log("currentUser=", req.params.username, "usersLoaded=", Boolean(users));
+        return res.json({users, currentUser, user_id: req.params.user_id});
     } catch (err) {
-        return res.status(err.res.status).json(err.res.data);
+        return next(err);
     }
 });
 
-router.post(
-    "/:username/matches/like/:user_id",
-    async function(req, res, next) {
-        try {
-            let currentUser = await User.get(req.params.username);
-            let user = await User.likeMatch(req.params.user_id, currentUser.user_id);
-            return res.json({
-                user,
-                username: req.params.username,
-                user_id: req.params.user_id,
-            });
-        } catch (err) {
-            if (err.res) {
-                return res.status(err.res.status).json(err.res.data);
-            }
+/** POST /users/:username/matches/like/:user_id = {user}
+ *
+ * Posts and returns a liked user.
+ */
+router.post("/:username/matches/like/:user_id", async function (req, res, next) {
+    try {
+        let currentUser = await User.get(req.params.username);
+        let user = await User.likeMatch(req.params.user_id, currentUser.user_id);
+        return res.json({user, username: req.params.username, user_id: req.params.user_id});
+    } catch (err) {
+        if (err.res) {
+            return res.status(err.res.status).json(err.res.data);
         }
     }
-);
+});
 
-router.post(
-    "/:username/matches/dislike/:user_id",
-    async function(req, res, next) {
-        try {
-            let currentUser = await User.get(req.params.username);
+/** POST /users/:username/matches/dislike/:user_id = {user}
+ * 
+ * Posts disliked user to the database.
+ *   
+ */
+router.post("/:username/matches/dislike/:user_id", async function (req, res, next) {
+    try {
+        let currentUser = await User.get(req.params.username);
 
-            let user = await User.unlikeMatch(
-                req.params.user_id,
-                currentUser.user_id
-            );
-            console.log(currentUser.user_id, req.params.user_id);
-
-            return res.json({
-                user,
-                currentUser,
-                // user_id: req.params.user_id,
-            });
-        } catch (err) {
-            if (err.res) {
-                return res.status(err.res.status).json(err.res.data);
-            }
+        let user = await User.unlikeMatch(req.params.user_id, currentUser.user_id);
+        console.log(currentUser.user_id, req.params.user_id);
+        return res.json({user, currentUser});
+    } catch (err) {
+        if (err.res) {
+            return res.status(err.res.status).json(err.res.data);
         }
     }
-);
+});
 
-// router.post(
-//   "/:username/matches/dislike/user/:user_id",
-//   async function (req, res, next) {
-//     try {
-//       let currentUser = await User.get(req.params.username);
-//       let user = await User.dislikeMatch(
-//         req.params.user_id,
-//         currentUser.user_id
-//       );
-//       return res.json({
-//         user,
-//         username: req.params.username,
-//         user_id: req.params.user_id,
-//       });
-//     } catch (err) {
-//       if (err.res) {
-//         return res.status(err.res.status).json(err.res.data);
-//       }
-//     }
-//   }
-// );
+/** GET /users/:username/matches/user/:user_id = {user}
+ * 
+ * Returns a user's info.
+ * 
+ */
 
-// router.post(
-//   "/:username/matches/dislike/:user_id",
-//   async function (req, res, next) {
-//     try {
-//       let currentUser = await User.get(req.params.username);
-//       let user = await User.dislikeMatch(
-//         req.params.user_id,
-//         currentUser.user_id
-//       );
-//       console.log(
-//         "currentUser=",
-//         currentUser,
-//         "Disliked user_id=",
-//         req.params.user_id
-//       );
-//       return res.json({
-//         user,
-//         username: req.params.username,
-//         user_id: req.params.user_id,
-//       });
-//     } catch (err) {
-//       if (err.res) {
-//         return res.status(err.res.status).json(err.res.data);
-//       }
-//     }
-//   }
-// );
-
-router.get("/:username/matches/user/:user_id", async function(req, res, next) {
+router.get("/:username/matches/user/:user_id", async function (req, res, next) {
     try {
         let currentUser = await User.get(req.params.username);
         let user = await User.getUserInfo(req.params.user_id);
         console.log(req.params.user_id);
-        return res.json({
-            user,
-            currentUser,
-        });
+        return res.json({user, currentUser});
     } catch (err) {
         return next(err);
     }
