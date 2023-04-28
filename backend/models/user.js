@@ -13,10 +13,10 @@ const { BCRYPT_WORK_FACTOR } = require("../config");
 
 class User {
   /** Authenticate user using username and password.
-     * Returns { first_name, last_name, username, email, is_admin }.
-     *
-     * Throws UnauthorizedError if user not found or wrong password.
-     */
+   * Returns { first_name, last_name, username, email, is_admin }.
+   *
+   * Throws UnauthorizedError if user not found or wrong password.
+   */
 
   static async authenticate(username, password) {
     const result = await db.query(
@@ -45,11 +45,11 @@ class User {
   }
 
   /** Register user with data.
-     *
-     * Returns { username, first_name, last_name, city, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin }
-     *
-     * Throws BadRequestError on duplicates.
-     */
+   *
+   * Returns { username, first_name, last_name, city, country, zipCode, latitude, longitude, image_url, hobbies, interests, is_admin }
+   *
+   * Throws BadRequestError on duplicates.
+   */
 
   static async register({
     firstName,
@@ -68,33 +68,19 @@ class User {
     interests,
     isAdmin
   }) {
-    // console.log("Deleted user.username", username);
-
-    // const duplicateCheck = await db.query(
-    //     `SELECT username, email
-    //     FROM users
-    //     WHERE username = $1 `, [username]
-    // );
-
-    //     // console.log("duplicateCheck.rows", duplicateCheck.rows);
-
+    const duplicateCheck = await db.query(
+      `SELECT username FROM users WHERE username = $1`,
+      [username]
+    );
+    // console.log("duplicateCheck.rows", duplicateCheck.rows);
     // if (duplicateCheck.rows[0]) {
     //         throw new BadRequestError(`Duplicate username: ${username} {duplicateCheck.rows[0]}`);
     //     }
 
- const duplicateCheck = await db.query(
-    `SELECT username, email FROM users WHERE username = $1`,
-    [username]
-  );
-
-    console.log("duplicateCheck.rows", duplicateCheck.rows);
-      
-
     const hashedPassword = await bcrypt.hash(password, BCRYPT_WORK_FACTOR);
 
-    
-      const result = await db.query(
-        `INSERT INTO users
+    const result = await db.query(
+      `INSERT INTO users
             (
             first_name,
             last_name,
@@ -114,28 +100,27 @@ class User {
             )
             VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14, $15)
             RETURNING first_name AS "firstName", last_name AS "lastName", username, email, city, state, country, zip_code AS "zipCode", latitude, longitude, image_url AS "imageUrl", hobbies, interests, is_admin AS "isAdmin"`,
-        [
-          firstName,
-          lastName,
-          username,
-          hashedPassword,
-          email,
-          city,
-          state,
-          country,
-          zipCode,
-          latitude,
-          longitude,
-          imageUrl,
-          hobbies,
-          interests,
-          isAdmin
-        ]
-      );
-      // console.log("result.rows[0]", result.rows[0]);
-      const user = result.rows[0];
-      return user;
-  
+      [
+        firstName,
+        lastName,
+        username,
+        hashedPassword,
+        email,
+        city,
+        state,
+        country,
+        zipCode,
+        latitude,
+        longitude,
+        imageUrl,
+        hobbies,
+        interests,
+        isAdmin
+      ]
+    );
+
+    const user = result.rows[0];
+    return user;
   }
 
   static async get(username) {
@@ -168,15 +153,6 @@ class User {
     return user;
   }
 
-  /** Find all users.
-     *
-     * Returns [{ username, first_name, last_name, email, city, state, country, zip_code, latitude, longitude, image_url, hobbies, interests, is_admin, is_guide, is_tourist }, ...]
-     *
-     * Throws NotFoundError if no users found.
-     *
-     * Left state in for now
-     * */
-
   static async findAll() {
     const result = await db.query(
       `SELECT username,
@@ -195,7 +171,6 @@ class User {
             FROM users
             ORDER BY username`
     );
-
     return result.rows;
   }
 
@@ -311,32 +286,6 @@ class User {
     return users;
   }
 
-  // static async unlikeMatch(id, user_id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes
-  //           WHERE user_id = $1 AND liked_user = $2
-  //           RETURNING user_id`,
-  //     [id, user_id]
-  //   );
-  //   console.log(result.rows);
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
-  // static async unlikeMatch(id, user_id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes
-  //           WHERE user_id = $1 AND liked_user = $2
-  //           RETURNING user_id`,
-  //     [id, user_id]
-  //   );
-  //   console.log(result.rows);
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
   static async likeMatch(id, user_id) {
     const result = await db.query(
       `INSERT INTO likes (user_id, liked_user, liked_username) 
@@ -348,45 +297,6 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
   }
-
-  // static async unlikeMatch(id, user_id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes (user_id, liked_user, liked_username)
-  //           VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
-  //           RETURNING user_id`,
-  //     [id, user_id]
-  //   );
-  //   console.log(result.rows);
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
-  // static async unlikeMatch(id, user_id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes l.liked_user, l.user_id
-  //           WHERE user_id = $1 AND liked_user = $2
-  //           RETURNING user_id`,
-  //     [id, user_id]
-  //   );
-  //   console.log(result.rows);
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
-  // static async unlikeMatch(id, user_id) {
-  //   const result = await db.query(
-  //     `DELETE FROM likes (user_id, liked_user, liked_username)
-  //           VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
-  //           RETURNING user_id`,
-  //     [id, user_id]
-  //   );
-  //   console.log(result.rows);
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
 
   static async unlikeMatch(liked_user, user_id) {
     const result = await db.query(
@@ -400,47 +310,6 @@ class User {
     if (!user) throw new NotFoundError(`No user: ${id}`);
     return user;
   }
-
-  // static async unlikeMatch(user_id, liked_user) {
-  //   const result = await db.query(
-  //     `SELECT FROM likes
-  //           WHERE user_id = $1
-  //           AND liked_user = $2
-  //           RETURNING user_id`,
-  //     [user_id, liked_user]
-  //   );
-  //   console.log(result.rows);
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
-  // static async unlikeMatch(user_id, liked_user) {
-  //   const result = await db.query(
-  //     `DELETE  user_id FROM likes
-  //         WHERE user_id = $1
-  //         AND liked_user = $2
-  //         RETURNING user_id`,
-  //     [user_id, liked_user]
-  //   );
-  //   console.log(result.rows);
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
-  // static async dislikeMatch(id, user_id) {
-  //   const result = await db.query(
-  //     `INSERT INTO dislikes (user_id, disliked_user, disliked_username)
-  //           VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
-  //           RETURNING user_id`,
-  //     [id, user_id]
-  //   );
-  //   let user = result.rows[0];
-  //   if (!user) throw new NotFoundError(`No user: ${id}`);
-  //   return user;
-  // }
-
   static async updateDislikedMatch(id, user_id) {
     const result = await db.query(
       `INSERT INTO dislikes
