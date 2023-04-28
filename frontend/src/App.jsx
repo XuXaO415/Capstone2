@@ -7,12 +7,10 @@ import UserContext from "./context/UserContext";
 import jwt from "jsonwebtoken";
 import Routes from "./Routes";
 
-
 export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
   const [token, setToken] = useLocalStorage(TOKEN_STORAGE_ID);
-    // const [token, setToken] = useLocalStorage("token", null);
 
   const [currentUser, setCurrentUser] = useState({
     data: null,
@@ -69,6 +67,7 @@ function App() {
   );
 
   /** Handle site-wide user logout */
+
   function logout() {
     setCurrentUser({
       data: null,
@@ -88,25 +87,13 @@ function App() {
 
 
   /** Handles site-wide new user signup */
-  async function signup(signupData) {
-    let token = await UrGuideApi.signup(signupData);
+
+  async function register(signupData) {
+    let token = await UrGuideApi.register(signupData);
     setToken(token);
   }
 
-  /** Handle URL image upload -- not working yet  */
-  // async function uploadImage(imageUrl) {
-  //   try {
-  //     let image = await UrGuideApi.uploadImage(imageUrl, currentUser.username);
-  //     setCurrentUser((currentUser) => ({
-  //       ...currentUser,
-  //       image_url: image.image_url,
-  //     }));
-  //     return { success: true };
-  //   } catch (err) {
-  //     console.error("uploadImage failed", err);
-  //     return { success: false, err };
-  //   }
-  // }
+  /* Handles liking a user */
 
   async function likeUser(username, user_id) {
     try {
@@ -121,19 +108,7 @@ function App() {
     }
   }
 
-  // async function dislikeMatch(currentUser, user_id) {
-  //   try {
-  //     await UrGuideApi.dislikeMatch(currentUser, user_id);
-  //     let dislikeMatch = await UrGuideApi.dislikeMatch(
-  //       currentUser.username,
-  //       user_id
-  //     );
-  //     setPotentialMatches(dislikeMatch);
-  //   } catch (err) {
-  //     console.error("unlikeUser failed", err);
-  //   }
-  // }
-
+  /* Handles disliking a user */
   async function dislikeMatch(username, user_id) {
     try {
       await UrGuideApi.dislikeMatch(username, user_id);
@@ -166,7 +141,7 @@ function App() {
           <Routes
             currentUser={currentUser.data}
             login={login}
-            signup={signup}
+            register={register} 
           />
         </BrowserRouter>
       </UserContext.Provider>
