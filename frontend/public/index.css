@@ -3,7 +3,8 @@
     transition: background-color 0.5s ease-in-out;
 }
 
-.footer-fixed-bottom span {
+
+/* .footer-fixed-bottom span {
     position: fixed;
     left: 50%;
     transform: translateX(-50%);
@@ -12,4 +13,4 @@
     color: #000;
     margin-bottom: 4rem;
     transition: color 0.5s ease-in-out;
-}
+} */
