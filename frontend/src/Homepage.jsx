@@ -29,19 +29,27 @@ function Homepage() {
             </span>
           </h2>
         ) : (
-          <Link to="/signup">
+          <Link to="/register">
             <Button color="primary" className="btn-md font-weight-bold">
               Sign Up
             </Button>
           </Link>
         )}
-        <br />
-        <p className="mt-3 font-weight-bold">Already have an account?</p>
-        <Link to="/login">
-          <Button color="primary" className="btn-md font-weight-bold">
-            Log In
-          </Button>
-        </Link>
+        {!currentUser ? (
+          <>
+            <br />
+            <p className="mt-3 font-weight-bold">Already have an account?</p><Link to="/login">
+            <Button color="primary" className="btn-md font-weight-bold">
+              Log In
+            </Button>
+          </Link></>
+        ) : (
+          <Link to="/logout">
+            <Button color="primary" className="btn-md font-weight-bold">
+              Log Out
+            </Button>
+            </Link>
+        )}
       </div>
     </div>
   );
