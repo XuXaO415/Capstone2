@@ -1,0 +1,11 @@
+.LoginForm {
+    padding: 2rem;
+    margin: 7rem;
+}
+
+.btn {
+    margin-top: .5rem;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
