@@ -23,3 +23,5 @@ yarn-error.log*
 __pycache__
 .vscode
 venv
+jsconfig.json
+howToAddGeo.txt
