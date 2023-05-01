@@ -42,23 +42,6 @@ const LikeMatchList = () => {
     [currentUser.username, user_id]
   );
 
-  // async function dislikeMatch(user_id) {
-  //   try {
-  //     function removeMatch(user_id) {
-  //       UrGuideApi.dislikeMatch(currentUser.username, user_id);
-  //     }
-  //       UrGuideApi.dislikeMatch(currentUser.username, user_id);
-  //       // console.log("removeMatch", removeMatch);
-  //       setLikedMatches((m) => m.filter((match) => match.user_id !== user_id));
-  //     setTimeout(() => {
-  //         removeMatch(user_id);
-  //       }, 2000);
-  //     } catch (errors) {
-  //   } finally {
-  //     console.log("removeMatch", removeMatch);
-  //       setMatchInfo(likedMatches);
-  //     }
-  // }
 
   async function dislikeMatch(user_id) {
     function removeMatch(user_id) {
