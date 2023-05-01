@@ -19,7 +19,6 @@ const LikeMatchList = () => {
   const [error, setError] = useState(null);
   const [matchInfo, setMatchInfo] = useState(null);
   const [matches, setMatches] = useState(null);
-  // const [removeMatch] = useState(null);
   const [removeMatch, setRemoveMatch] = useState(null);
 
   useEffect(
