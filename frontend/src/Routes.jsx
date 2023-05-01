@@ -9,6 +9,7 @@ import MatchDetail from "./matches/MatchDetail";
 import MatchList from "./matches/MatchList";
 import MatchCard from "./matches/MatchCard";
 import LikeMatchList from "./matches/LikeMatchList";
+import { register } from "../../backend/models/user";
 
 function Routes({
   login,
@@ -32,8 +33,8 @@ function Routes({
             <Route exact path="/login">
               <LoginForm login={login} />
             </Route>
-            <Route exact path="/signup">
-              <SignupForm signup={signup} />
+            <Route exact path="/register">
+              <SignupForm signup={register} />
             </Route>
           </>
         )}
