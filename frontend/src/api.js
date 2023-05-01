@@ -1,5 +1,5 @@
 import axios from "axios";
-import {TOKEN_STORAGE_ID} from "./App";
+import { TOKEN_STORAGE_ID } from "./App";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:3001";
 
@@ -13,16 +13,15 @@ class UrGuideApi {
 
         const url = `${BASE_URL}/${endpoint}`;
         const headers = {
-            Authorization: `Bearer ${
-                UrGuideApi.token
-            }`
+            Authorization: `Bearer ${UrGuideApi.token
+                }`
         };
-        const response = await axios({url, data, method, headers});
+        const response = await axios({ url, data, method, headers });
         const params = method === "GET" ? data : {};
         console.debug("API Response:", response.data, params);
 
         try {
-            return(await axios({
+            return (await axios({
                 url,
                 method,
                 data,
@@ -99,7 +98,7 @@ class UrGuideApi {
         let res = await this.request(`users/${currentUser}/matches/like/${user_id}`, {}, "POST");
         console.log("POST was successful and", {
             currentUser
-        }, "liked", {user_id});
+        }, "liked", { user_id });
         return res.status;
     }
 
@@ -117,7 +116,7 @@ class UrGuideApi {
             let res = await this.request(`users/${currentUser}/matches/dislike/${user_id}`, {}, "POST");
             console.log("res from dislikeMatch:", res, {
                 currentUser
-            }, "disliked", {user_id});
+            }, "disliked", { user_id });
             return res;
         } catch (err) {
             console.log("err from dislikeMatch:", err);

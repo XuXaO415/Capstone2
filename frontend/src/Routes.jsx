@@ -9,11 +9,12 @@ import MatchDetail from "./matches/MatchDetail";
 import MatchList from "./matches/MatchList";
 import MatchCard from "./matches/MatchCard";
 import LikeMatchList from "./matches/LikeMatchList";
-import { register } from "../../backend/models/user";
+
 
 function Routes({
   login,
   signup,
+  register,
   updateProfile,
   currentUser,
   potentialMatches,
@@ -34,7 +35,7 @@ function Routes({
               <LoginForm login={login} />
             </Route>
             <Route exact path="/register">
-              <SignupForm signup={register} />
+              <SignupForm register={register} />
             </Route>
           </>
         )}
