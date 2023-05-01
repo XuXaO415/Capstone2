@@ -15,8 +15,8 @@ beforeEach(commonBeforeEach);
 afterEach(commonAfterEach);
 afterAll(commonAfterAll);
 
-describe("POST /auth/token", function() {
-    test("works", async function() {
+describe("POST /auth/token", function () {
+    test("works", async function () {
         const resp = await request(app).post("/auth/token").send({
             username: "testuser",
             password: "123123123",
@@ -25,7 +25,7 @@ describe("POST /auth/token", function() {
     });
 });
 
-test("unauth if no such user", async function() {
+test("unauth if no such user", async function () {
     const resp = await request(app).post("/auth/token").send({
         username: "noUser",
         password: "shouldntmatter",
@@ -33,7 +33,7 @@ test("unauth if no such user", async function() {
     expect(401);
 });
 
-test("unauth if wrong password", async function() {
+test("unauth if wrong password", async function () {
     const resp = await request(app).post("/auth/token").send({
         username: "jdoe",
         password: "wrong",
@@ -41,7 +41,7 @@ test("unauth if wrong password", async function() {
     expect(401);
 });
 
-test("bad request with missing data", async function() {
+test("bad request with missing data", async function () {
     const resp = await request(app).post("/auth/token").send({
         username: "jdoe",
     });
@@ -50,7 +50,7 @@ test("bad request with missing data", async function() {
 
 
 
-test("bad request with invalid data", async function() {
+test("bad request with invalid data", async function () {
     const resp = await request(app).post("/auth/token").send({
         username: 42,
         password: "password",
@@ -60,8 +60,8 @@ test("bad request with invalid data", async function() {
 
 
 
-describe("POST /auth/register", function() {
-    test("works", async function() {
+describe("POST /auth/register", function () {
+    test("works", async function () {
         const resp = await request(app).post("/auth/register").send({
             username: "newUser",
             password: "password",

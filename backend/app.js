@@ -3,9 +3,9 @@
 const express = require("express");
 const cors = require("cors");
 
-const {NotFoundError} = require("./expressError");
+const { NotFoundError } = require("./expressError");
 
-const {authenticateJWT} = require("./middleware/auth");
+const { authenticateJWT } = require("./middleware/auth");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
 
@@ -42,9 +42,9 @@ app.use(function (req, res, next) {
 
 // Generic error handler
 app.use(function (err, req, res, next) {
-    if (process.env.NODE_ENV !== "test") 
+    if (process.env.NODE_ENV !== "test")
         console.error(err.stack);
-    
+
 
 
     const status = err.status || 500;
