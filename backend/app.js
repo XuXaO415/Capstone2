@@ -3,9 +3,9 @@
 const express = require("express");
 const cors = require("cors");
 
-const { NotFoundError } = require("./expressError");
+const {NotFoundError} = require("./expressError");
 
-const { authenticateJWT } = require("./middleware/auth");
+const {authenticateJWT} = require("./middleware/auth");
 const authRoutes = require("./routes/auth");
 const usersRoutes = require("./routes/users");
 
@@ -34,23 +34,27 @@ app.use("/users/:username/matches/likes", usersRoutes);
 app.use("/users/:username/matches/like/:user_id", usersRoutes);
 app.use("/users/:username/matches/dislike/:user_id", usersRoutes);
 
-//Handles 404 errors
-app.use(function(req, res, next) {
+// Handles 404 errors
+app.use(function (req, res, next) {
     const notFoundError = new NotFoundError();
     return next(notFoundError);
 });
 
-//Generic error handler
-app.use(function(err, req, res, next) {
-    if (process.env.NODE_ENV !== "test") console.error(err.stack);
+// Generic error handler
+app.use(function (err, req, res, next) {
+    if (process.env.NODE_ENV !== "test") 
+        console.error(err.stack);
+    
+
+
     const status = err.status || 500;
     const message = err.message;
 
     return res.status(status).json({
         error: {
             message,
-            status,
-        },
+            status
+        }
     });
 });
 

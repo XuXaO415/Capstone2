@@ -2,10 +2,10 @@
 
 const db = require("../db");
 const bcrypt = require("bcrypt");
-const { sqlForPartialUpdate } = require("../helpers/sql");
-const { NotFoundError, BadRequestError, UnauthorizedError } = require("../expressError");
+const {sqlForPartialUpdate} = require("../helpers/sql");
+const {NotFoundError, BadRequestError, UnauthorizedError} = require("../expressError");
 
-const { BCRYPT_WORK_FACTOR } = require("../config");
+const {BCRYPT_WORK_FACTOR} = require("../config");
 
 class User { /** Authenticate user using username and password.
      *
@@ -117,9 +117,9 @@ class User { /** Authenticate user using username and password.
 
         const user = userRes.rows[0];
 
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user: ${username}`);
-
+        
 
 
         return user;
@@ -139,9 +139,9 @@ class User { /** Authenticate user using username and password.
 
         const user = userRes.rows[0];
 
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user id: ${id}`);
-
+        
 
 
         return user;
@@ -177,7 +177,7 @@ class User { /** Authenticate user using username and password.
             data.password = await bcrypt.hash(data.password, BCRYPT_WORK_FACTOR);
         }
 
-        const { setCols, values } = sqlForPartialUpdate(data, {
+        const {setCols, values} = sqlForPartialUpdate(data, {
             username: "username",
             firstName: "first_name",
             lastName: "last_name",
@@ -201,9 +201,9 @@ class User { /** Authenticate user using username and password.
         ]);
         const user = result.rows[0];
 
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user: ${username}`);
-
+        
 
 
         delete user.password;
@@ -217,9 +217,9 @@ class User { /** Authenticate user using username and password.
             RETURNING username`, [username]);
         const user = result.rows[0];
 
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user: ${username}`);
-
+        
 
 
     }
@@ -229,9 +229,9 @@ class User { /** Authenticate user using username and password.
           FROM users
           WHERE username = $1`, [username]);
         const user = result.rows[0];
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user: ${username}`);
-
+        
 
 
     }
@@ -242,17 +242,17 @@ class User { /** Authenticate user using username and password.
       WHERE image_url IS NOT NULL
       ORDER BY RANDOM() LIMIT 5`);
         let users = result.rows;
-        if (!users)
+        if (! users) 
             throw new NotFoundError(`No users found`);
+        
 
 
-
-        if (users.length < 5)
+        if (users.length < 5) 
             throw new BadRequestError(`Not enough users to match`);
+        
 
 
-
-        if (!users[0].zip_code) {
+        if (! users[0].zip_code) {
             users[0].zip_code = users[0].state;
             users[0].message = "No zip code for this country";
         }
@@ -267,9 +267,9 @@ class User { /** Authenticate user using username and password.
       ORDER BY id LIMIT 1`, [user_id]);
             console.log(result.rows);
             let user = result.rows[0];
-            if (!user)
+            if (! user) 
                 throw new NotFoundError(`No user`);
-
+            
 
 
             return user;
@@ -287,9 +287,9 @@ class User { /** Authenticate user using username and password.
       ORDER BY l.id DESC LIMIT 5`);
         console.log(result.rows);
         let users = result.rows;
-        if (!users)
+        if (! users) 
             throw new NotFoundError(`No users found`);
-
+        
 
 
         return users;
@@ -300,9 +300,9 @@ class User { /** Authenticate user using username and password.
             VALUES ($1, $2, (SELECT username FROM users WHERE id = $2))
             RETURNING user_id`, [id, user_id]);
         let user = result.rows[0];
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user: ${id}`);
-
+        
 
 
         return user;
@@ -314,8 +314,9 @@ class User { /** Authenticate user using username and password.
             RETURNING user_id`, [liked_user, user_id]);
         console.log(result.rows);
         let user = result.rows[0];
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user: ${id}`);
+        
 
         return user;
     }
@@ -327,8 +328,9 @@ class User { /** Authenticate user using username and password.
             RETURNING user_id`, [id, user_id]);
         let user = result.rows[0];
 
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user: ${username}`);
+        
 
         return user;
     }
@@ -339,8 +341,9 @@ class User { /** Authenticate user using username and password.
             WHERE user_id = $1 AND disliked_user = $2
             RETURNING user_id`, [user_id, disliked_user]);
         const user = result.rows[0];
-        if (!user)
+        if (! user) 
             throw new NotFoundError(`No user: ${username}`);
+        
 
         return user;
     }
@@ -351,8 +354,9 @@ class User { /** Authenticate user using username and password.
             WHERE user_id = $1 AND liked_user = $2
             RETURNING user_id`, [user_id, liked_user]);
         const users = result.rows[0];
-        if (!users)
+        if (! users) 
             throw new NotFoundError(`No user: ${username}`);
+        
 
         return users;
     }
