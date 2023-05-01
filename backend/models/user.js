@@ -318,6 +318,7 @@ class User { /** Authenticate user using username and password.
             throw new NotFoundError(`No user: ${id}`);
         
 
+
         return user;
     }
 
@@ -332,6 +333,7 @@ class User { /** Authenticate user using username and password.
             throw new NotFoundError(`No user: ${username}`);
         
 
+
         return user;
     }
 
@@ -345,6 +347,7 @@ class User { /** Authenticate user using username and password.
             throw new NotFoundError(`No user: ${username}`);
         
 
+
         return user;
     }
 
@@ -357,6 +360,7 @@ class User { /** Authenticate user using username and password.
         if (! users) 
             throw new NotFoundError(`No user: ${username}`);
         
+
 
         return users;
     }
