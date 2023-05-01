@@ -1,15 +1,18 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useHistory, Redirect, NavLink, useNavigate } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
 import Row from "react-bootstrap/Row";
 import { Container } from "react-bootstrap";
+import Alert from "../common/Alert";
 import "./SignupForm.css";
 
-function SignupForm({ signup }) {
-  const history = useHistory();
 
+
+
+function SignupForm({ register }) {
+  const history = useHistory();
   const [formData, setFormData] = useState({
     username: "",
     password: "",
@@ -23,17 +26,62 @@ function SignupForm({ signup }) {
     hobbies: "",
     interests: "",
   });
+
+
   const [formErrors, setFormErrors] = useState([]);
 
   console.debug(
-    "SignupForm",
-    "signup=",
-    typeof signup,
-    "formData=",
-    formData,
+    // "SignupForm",
+    // "signup=",
+    //typeof signup,
     "formErrors=",
-    formErrors
+    formErrors,
+    "formData=",
+    formData
   );
+
+  // const isValidZipCode = (val) => {
+  //   //https://regexr.com/3e48o => regex validation explanation
+  //   const zipCodePattern = /^\d{5}(?:[-\s]\d{4})?$/; // regex pattern for zip code
+  //   return zipCodePattern.test(val); // test's value against pattern
+  // };
+
+  // const isValidEmail = (val) => {
+  //   const emailPattern = /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/;
+  //   return emailPattern.test(val);
+  // };
+
+  // const isValidCity = (val) => {
+  //   const cityPattern = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+  //   return cityPattern.test(val);
+  // };
+
+  // const isValidCountry = (val) => {
+  //   const countryPattern = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+  //   return countryPattern.test(val);
+  // };
+
+  // const isValidState = (val) => {
+  //   const statePattern = /^[a-zA-Z]+(?:[\s-][a-zA-Z]+)*$/;
+  //   return statePattern.test(val);
+  // };
+
+
+
+
+
+
+  async function handleSubmit(e) {
+    e.preventDefault();
+    try {
+      await register(formData);
+      history.push("/matches");
+    } catch (err) {
+      setFormErrors(err);
+    }
+  }
+
+
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -43,15 +91,29 @@ function SignupForm({ signup }) {
     }));
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    try {
-      await signup(formData);
-      history.push("/profile");
-    } catch (err) {
-      setFormErrors(err);
-    }
-  }
+//     function handleChange(e) {
+//   const { name, value } = e.target;
+//   setFormData({
+//     ...formData,
+//     [name]: value,
+//     [`${name}Error`]: !isValidZipCode(value),
+//   });
+// };
+
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   try {
+  //     await signup(formData);
+  //     history.push("/matches");
+  //   } catch (err) {
+  //     setFormErrors(err);
+  //   }
+  // }
+
+
+
+ 
+
 
   // async function handleSubmit(e) {
   //   e.preventDefault();
@@ -59,9 +121,27 @@ function SignupForm({ signup }) {
   //   if (result.success) {
   //     let mes = "You have successfully signed up!";
   //     alert(mes);
-  //     history.push("/profile");
+  //     history.push("/matches");
   //   } else {
   //     setFormErrors(result.errors);
+  //   }
+  // }
+
+  // async function handleSubmit(e) {
+  //   e.preventDefault();
+  //   try {
+  //     let result = await register(formData);
+  //                 console.debug("SignupForm", "signup=", typeof signup);
+  //     if (result.success) {
+  //       let mes = "You have successfully signed up!";
+  //       alert(mes);
+  //       history.push("/matches");
+
+  //     } else {
+  //       setFormErrors(result.errors);
+  //     }
+  //   } catch (err) {
+  //     setFormErrors(err);
   //   }
   // }
 
@@ -78,7 +158,6 @@ function SignupForm({ signup }) {
             <Form.Group as={Col} controlId="formGridUsername">
               <Form.Label>Username</Form.Label>
               <Form.Control
-                type="text"
                 name="username"
                 value={formData.username}
                 onChange={handleChange}
@@ -167,24 +246,31 @@ function SignupForm({ signup }) {
                 onChange={handleChange}
                 required
               />
+              {/* <Form.Control.Feedback type="invalid">
+                Please enter a valid State.
+              </Form.Control.Feedback> */}
             </Form.Group>
 
             <Form.Group as={Col} controlId="formGridZipCode">
               <Form.Label>Zip</Form.Label>
               <Form.Control
-                type="number"
+                type="text"
                 name="zipCode"
                 value={formData.zipCode}
                 onChange={handleChange}
                 required
+              
               />
+              {/* <Form.Control.Feedback type="invalid">
+                Please provide a valid zip code (5 digits).
+              </Form.Control.Feedback> */}
             </Form.Group>
           </Row>
 
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridHobbies">
-              <Form.Label>Hobbies</Form.Label>
-              <Form.Select name="hobbies" onChange={handleChange} required>
+              <Form.Label>Hobbies </Form.Label>
+              <Form.Select as="select" name="hobbies" values={formData.hobbies} onChange={handleChange} required>
                 <option value="">Choose...</option>
                 <option value="1">Sightseeing</option>
                 <option value="2">Gaming</option>
@@ -211,7 +297,7 @@ function SignupForm({ signup }) {
 
             <Form.Group as={Col} controlId="formGridInterests">
               <Form.Label>Interests</Form.Label>
-              <Form.Select name="interests" onChange={handleChange} required>
+              <Form.Select as="interests" name="interests" onChange={handleChange} required>
                 <option value="">Choose...</option>
                 <option value="1">Sightseeing</option>
                 <option value="2">Gaming</option>
@@ -235,6 +321,10 @@ function SignupForm({ signup }) {
               </Form.Select>
             </Form.Group>
           </Row>
+            {formErrors.length
+                ? <Alert type="danger" messages={formErrors} />
+                : null
+              }
           <Button variant="primary" type="submit" onSubmit={handleSubmit}>
             Submit
           </Button>

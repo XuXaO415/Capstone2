@@ -4,6 +4,7 @@ import UserContext from "../context/UserContext";
 import { Button } from "react-bootstrap";
 import Form from "react-bootstrap/Form";
 import Alert from "../common/Alert";
+import "./LoginForm.css";
 
 /** Form for logging in. */
 
@@ -39,44 +40,6 @@ function LoginForm({ login }) {
     }
   };
 
-  // async function handleSubmit(e) {
-  //   e.preventDefault();
-  //   const form = e.currentTarget;
-  //   if (form.checkValidity() === false) {
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //   }
-  //   setValidated(true);
-  //   e.preventDefault();
-  //   let result = await login(formData);
-  //   if (currentUser === null) {
-  //     result.success ? history.push("/profile") : setFormErrors(result.errors);
-  //   } else {
-  //     history.push("/signup");
-  //   }
-  // }
-
-  // async function handleSubmit(e) {
-  //   const form = e.currentTarget;
-  //   if (form.checkValidity() === false) {
-  //     e.preventDefault();
-  //     e.stopPropagation();
-  //   }
-  //   setValidated(true);
-  //   e.preventDefault();
-  //   let result = await login(formData);
-  //   if (result.success) {
-  //     history.push("/profile");
-  //   }
-
-  //   if (!result.success) {
-  //     setFormErrors(result.errors);
-  //   } else {
-  //     setFormErrors([]);
-  //   }
-  // }
-
-  /** Update form data field */
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -86,7 +49,7 @@ function LoginForm({ login }) {
   return (
     <div className="LoginForm">
       <div className="container col-md-6 offset-md-3 col-lg-4 offset-lg-4">
-        <h3 className="mb-3">Log In</h3>
+        <h2 className="mb-3">Log In</h2>
         <Form noValidate validated={validated} onSubmit={handleSubmit}>
           <div className="form-group">
             <label>Username: </label>
@@ -118,12 +81,12 @@ function LoginForm({ login }) {
             </Form.Control.Feedback>
           </div>
 
-          <Button variant="primary" type="submit">
+          <Button className="btn" variant="primary" type="submit">
             Submit
           </Button>
         </Form>
         <p className="mt-3">
-          New to UrGuide? <NavLink to="/signup">Sign Up</NavLink>
+          New to UrGuide? <NavLink to="/register">Sign Up</NavLink>
         </p>
       </div>
     </div>

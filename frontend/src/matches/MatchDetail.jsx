@@ -15,17 +15,11 @@ import "./MatchDetail.css";
  */
 
 function MatchDetail() {
-  let { currentUser } = useContext(UserContext);
-  let { user_id } = useParams();
+  const { currentUser } = useContext(UserContext);
+  const { user_id } = useParams();
+  const [matchInfo, setMatchInfo] = useState([]);
 
-  let [matchInfo, setMatchInfo] = useState([]);
 
-  // useEffect(() => {
-  //   async function getMatchInfo() {
-  //     await UrGuideApi.getMatchInfo(currentUser.username, user_id);
-  //     const matchInfo = [user];
-  //     setMatchInfo(matchInfo);
-  //   }
 
   useEffect(() => {
     async function getMatchInfo() {
@@ -46,67 +40,53 @@ function MatchDetail() {
     getMatchInfo();
   }, [currentUser, currentUser.username, user_id]);
 
-  // const handleDislike = async (e) => {
-  //   e.preventDefault();
-  //   try {
-  //     await UrGuideApi.dislikeUser(currentUser.username, user_id);
-  //     setMatchInfo((matchInfo) =>
-  //       matchInfo.filter((u) => u.user_id !== user_id)
-  //     );
-  //   } catch (err) {
-  //     console.error("MatchDetail handleDislike: problem loading", err);
-  //   }
-  // };
+  // if (!matchInfo) return <p>Loading...</p>;
+
 
   return (
     <div className="MatchDetail">
       <div className="user-image">
+        {" "}
         {matchInfo && matchInfo.user && (
           <Card.Img variant="top" src={matchInfo.user.image_url} />
-        )}
-      </div>
+        )}{" "}
+      </div>{" "} 
       <div className="user-info">
+        {" "}
         {currentUser && currentUser.username ? (
-          <p className="lead">Here's more info on {user_id}!</p>
+          <p className="lead"> Here 's more info on me!</p>
         ) : (
-          <p>Loading...</p>
-        )}
-
+          <p> Loading... </p>
+        )}{" "}
         {matchInfo && matchInfo.user ? (
           <div key={matchInfo.user.user_id} className="MatchDetail-list">
             <Card.Body>
-              <Card.Title>Name: {matchInfo.user.first_name}</Card.Title>
+              <Card.Text><strong>Name:</strong> {matchInfo.user.first_name} </Card.Text>
               <Card.Text>
-                <strong>City:</strong> {matchInfo.user.city}
-              </Card.Text>
+                <strong> City: </strong> {matchInfo.user.city}
+              </Card.Text>{" "}
               <Card.Text>
-                <strong>State:</strong> {matchInfo.user.state}
-              </Card.Text>
-              <strong>Country:</strong> {matchInfo.user.country}
+                <strong> State: </strong> {matchInfo.user.state}
+              </Card.Text>{" "}
+              <strong> Country: </strong> {matchInfo.user.country}
+              <Card.Text>{" "}</Card.Text>
+               <Card.Text>
+                <strong> Zip Code: </strong> {matchInfo.user.zip_code}
+              </Card.Text>{" "}
               <Card.Text>
-                <strong>Zip Code:</strong> {matchInfo.user.zip_code}
-              </Card.Text>
+                <strong> Hobbies: </strong> {matchInfo.user.hobbies}
+              </Card.Text>{" "}
               <Card.Text>
-                <strong>Hobbies:</strong> {matchInfo.user.hobbies}
-              </Card.Text>
-              <Card.Text>
-                <strong>Interests:</strong> {matchInfo.user.interests}
+                <strong> Interests: </strong> {matchInfo.user.interests}
               </Card.Text>
             </Card.Body>
-            {/* <div className="user-card">
-                User: {user_id}
-                <br></br>
-                Username: {matchInfo.user.username}
-                <br></br>
-                City: {matchInfo.user.city}, State: {matchInfo.user.state}
-              </div> */}
-            {/* <button className="dislike-button" onClick={handleDislike}>
-                Dislike
-              </button> */}
           </div>
         ) : (
-          <p>Loading...</p>
+          <p> Loading... </p>
         )}
+        <Link to={`/matches`}>
+            <button className="btn btn-primary"> Back to Matches </button>
+        </Link>{" "}
       </div>
     </div>
   );

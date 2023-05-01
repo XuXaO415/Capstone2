@@ -32,7 +32,6 @@ function App() {
       console.log(
         "App loadUserInfo =",
         Boolean(token),
-        "loadUserInfo",
         "token =",
         Boolean(token)
       );
@@ -75,8 +74,6 @@ function App() {
     });
     setToken(null);
   }
-
-
 
   /** Handle site-wide user login */
 
