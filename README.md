@@ -4,6 +4,8 @@
 
 UrGuide is an app where people from all over the world come to make friends.
 
+To see a working demo of the app, please visit [UrGuide](https://urguide.surge.sh/).
+
 Why use UrGuide?
 
 * Make friends when traveling.
