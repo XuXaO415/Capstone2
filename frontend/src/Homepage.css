@@ -33,7 +33,8 @@
 
 .lead-paragraph {
     top: 50%;
-    font-size: 4em;
+    font-size: 3.5em;
+    opacity: 0.9;
     color: #FFFFFF;
     align-items: center;
     font-family: "Zen Kaku Gothic Antique", "Nanum Gothic", sans-serif;
@@ -41,18 +42,20 @@
 
 .second-paragraph {
     top: 50%;
-    font-size: 1.7em;
-    opacity: 0.8;
+    font-size: 1.5em;
+    opacity: 0.9;
     color: #FFFFFF;
     align-items: center;
     font-family: "Zen Kaku Gothic Antique", "Nanum Gothic", sans-serif;
-    font-weight: 100px;
 }
 
 .mt-3 {
     font-size: 1.5em;
     margin-top: 1rem;
+    opacity: 0.9;
     color: #FFFFFF;
+    font-family: "Zen Kaku Gothic Antique", "Nanum Gothic", sans-serif;
+    font-weight: 10px;
 }
 
 .btn-md {
@@ -60,15 +63,9 @@
     padding: 0.5em 1em;
     border-radius: 0.5em;
     color: #FFFFFF;
-    font-weight: 80px;
 }
 
 .btn-md:hover {
     background-color: #2E2EFF;
     color: #FFFFFF;
-}
-
-.mt-3 {
-    font-size: 1.5em;
-    margin-top: 1rem;
 }

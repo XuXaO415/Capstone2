@@ -11,10 +11,13 @@ function Homepage() {
   return (
     <div className="Homepage Homepage-background">
       <div className="container text-center">
+   
         <h1 className="lead-paragraph mb-1 font-weight-bold">UrGuide</h1>
-        <p className="second-paragraph font-weight-bold font-italic">
+  
+        <p className="second-paragraph font-weight-bold">
           Your friends, your guides.
         </p>
+     
         {currentUser ? (
           <h2>
             Welcome back,{" "}
