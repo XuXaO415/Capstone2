@@ -44,7 +44,7 @@ function Navigation({ logout }) {
           </NavLink>
         </li>
         <li className="nav-item me-4">
-          <NavLink className="nav-link" to="/signup">
+          <NavLink className="nav-link" to="/register">
             Sign Up
           </NavLink>
         </li>
