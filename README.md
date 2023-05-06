@@ -2,8 +2,6 @@
 <!-- About my project -->
 
 ![GitHub last commit](https://img.shields.io/github/last-commit/XuXaO415/Capstone2)
-
-![Languages used](https://img.shields.io/github/languages/count/XuxaO415/Captstone2)
 ![Commit activity](https://img.shields.io/github/commit-activity/m/XuXaO415/Capstone2)
 # About The Project - UrGuide
 
