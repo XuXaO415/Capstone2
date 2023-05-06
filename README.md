@@ -1,5 +1,7 @@
 <a name="readme-top"></a>
 <!-- About my project -->
+
+![GitHub last commit](https://img.shields.io/github/last-commit/XuXaO415/Capstone2)
 # About The Project - UrGuide
 
 UrGuide is an app where people from all over the world come to make friends.
