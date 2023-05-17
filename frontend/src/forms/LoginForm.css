@@ -1,11 +1,16 @@
 .LoginForm {
     padding: 2rem;
-    margin: 7rem;
+    margin: 10rem;
+    /* margin-left: auto;
+    margin-right: auto; */
+    width: 100%;
 }
 
 .btn {
     margin-top: .5rem;
     display: block;
-    margin-left: auto;
-    margin-right: auto;
+    /* margin-left: auto; */
+    margin: 0 auto;
+    font-weight: bold;
+    background-color: #0056B3;
 }
