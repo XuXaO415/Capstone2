@@ -7,6 +7,8 @@ import UserContext from "./context/UserContext";
 import jwt from "jsonwebtoken";
 import Routes from "./Routes";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+
 export const TOKEN_STORAGE_ID = "UrGuide-token";
 
 function App() {
