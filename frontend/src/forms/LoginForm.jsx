@@ -126,7 +126,7 @@ function LoginForm({ login }) {
             Sign in
           </Button>
           <Form.Group className="mb-3" id="formGridCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
+        <Form.Check type="checkbox" label="Remember me" />
       </Form.Group>
         </Form>
          <p className="mt-5 font-weight-bold">New to UrGuide? <NavLink to="/register">Sign Up</NavLink>
