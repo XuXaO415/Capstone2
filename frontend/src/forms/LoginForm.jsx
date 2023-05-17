@@ -94,6 +94,9 @@ function LoginForm({ login }) {
     //   </div>
     // </div>
 
+      //just in case this version I break something, this is the one that works
+        //  "react-bootstrap": "^2.5.0",
+
 
 
 <Container className="LoginForm">
@@ -105,6 +108,7 @@ function LoginForm({ login }) {
               <Form.Label >Username:</Form.Label>
               <Form.Control
                 name="username"
+                placeholder="Username"
                 value={formData.username}
                 onChange={handleChange}
                 required
@@ -116,6 +120,7 @@ function LoginForm({ login }) {
               <Form.Control
                 type="password"
                 name="password"
+                placeholder="Password"
                 value={formData.password}
                 onChange={handleChange}
                 required
