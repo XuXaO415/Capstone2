@@ -162,6 +162,20 @@ function SignupForm({ register }) {
         <Form onSubmit={handleSubmit}>
           <Row className="mb-3">
 
+          {/* <Form.Group as={Col} controlId="formGridFirstName">
+              <Form.Label>First Name:</Form.Label>
+              <Form.Control
+                type="text"
+                name="firstName"
+                placeholder="First Name"
+                aria-describedby="inputGroupPrepend"
+                value={formData.firstName}
+                onChange={handleChange}
+                required
+              />
+            </Form.Group>
+             */}
+
             <Form.Group as={Col} controlId="formGridUsername">
               <InputGroup className="mb-3">
               <InputGroup.Text>Username</InputGroup.Text>
@@ -176,6 +190,21 @@ function SignupForm({ register }) {
             </InputGroup>
             </Form.Group>
 
+            <Form.Group as={Col} controlId="formGridEmail">
+              <InputGroup className="mb-3">
+              <InputGroup.Text>Email</InputGroup.Text>
+              <Form.Control
+                type="email"
+                name="email"
+                placeholder="Email"
+                aria-describedby="inputGroupPrepend"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              </InputGroup>
+            </Form.Group>
+
             {/* <Form.Group as={Col} controlId="formGridUsername">
               <InputGroup.Text>Username</InputGroup.Text>
               <Form.Label>Username:</Form.Label>
@@ -188,7 +217,9 @@ function SignupForm({ register }) {
                 required
               />
             </Form.Group> */}
+          </Row>
 
+          <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridPassword">
               <InputGroup className="mb-3">
               <InputGroup.Text>Password</InputGroup.Text>
@@ -203,9 +234,7 @@ function SignupForm({ register }) {
               />
               </InputGroup>
             </Form.Group>
-          </Row>
 
-          <Row className="mb-3">
             <Form.Group as={Col} md="6" controlId="formGridPasswordConfirm">
               <InputGroup className="mb-3">
               <InputGroup.Text>Confirm password</InputGroup.Text>
