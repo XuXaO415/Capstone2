@@ -29,6 +29,12 @@
             "maxLength": 20,
             "description": "The users's password."
         },
+        "passwordConfirm": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 20,
+            "description": "The users's password confirmation."
+        },
         "email": {
             "type": "string",
             "minLength": 6,
@@ -87,6 +93,7 @@
         "lastName",
         "username",
         "password",
+        "passwordConfirm",
         "email",
         "city",
         "state",
