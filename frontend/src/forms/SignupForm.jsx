@@ -47,6 +47,7 @@ function SignupForm({ register }) {
   });
 
   const [formErrors, setFormErrors] = useState([]);
+  const [errors, setErrors] = useState({});
 
   console.debug(
     // "SignupForm",
@@ -232,6 +233,7 @@ function SignupForm({ register }) {
                 onChange={handleChange}
                 required
               />
+              {errors.password && <p>{errors.password.message}</p>}
               </InputGroup>
             </Form.Group>
 
@@ -279,8 +281,8 @@ function SignupForm({ register }) {
             </Form.Group>
           </Row>
 
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="formGridEmail">
+          {/* <Row className="mb-3"> */}
+            {/* <Form.Group as={Col} controlId="formGridEmail">
               <Form.Label>Email:</Form.Label>
               <Form.Control
                 type="email"
@@ -291,8 +293,8 @@ function SignupForm({ register }) {
                 onChange={handleChange}
                 required
               />
-            </Form.Group>
-
+            </Form.Group> */}
+      <Row className="mb-4">  
             <Form.Group as={Col} controlId="formGridCity">
               <Form.Label>City:</Form.Label>
               <Form.Control
@@ -305,12 +307,12 @@ function SignupForm({ register }) {
                 required
               />
             </Form.Group>
-          </Row>
-
-          <Row className="mb-3">
-            <Form.Group as={Col} controlId="formGridCountry">
+        
+           <Form.Group as={Col} controlId="formGridCountry">
               <Form.Label>Country:</Form.Label>
               <Form.Control
+              //default country is USA for now
+              
                 type="text"
                 name="country"
                 placeholder="Country"
@@ -319,7 +321,7 @@ function SignupForm({ register }) {
                 onChange={handleChange}
                 required
               />
-            </Form.Group>
+            </Form.Group> 
 
             <Form.Group as={Col} controlId="formGridState">
               <Form.Label>State:</Form.Label>
