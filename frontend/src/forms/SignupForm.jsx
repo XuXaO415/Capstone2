@@ -223,7 +223,7 @@ function SignupForm({ register }) {
           <Row className="mb-3">
             <Form.Group as={Col} controlId="formGridPassword">
               <InputGroup className="mb-3">
-              <InputGroup.Text>Password</InputGroup.Text>
+              <InputGroup.Text>Password:</InputGroup.Text>
               <Form.Control
                 type="password"
                 name="password"
@@ -239,7 +239,7 @@ function SignupForm({ register }) {
 
             <Form.Group as={Col} md="6" controlId="formGridPasswordConfirm">
               <InputGroup className="mb-3">
-              <InputGroup.Text>Confirm password</InputGroup.Text>
+              <InputGroup.Text>Confirm password:</InputGroup.Text>
               <Form.Control
                 type="password"
                 name="passwordConfirm"

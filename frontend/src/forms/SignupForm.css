@@ -7,6 +7,16 @@
     border-radius: 0%;
 }
 
+h1 {
+    padding: 70px;
+    text-align: center;
+    font-size: 3rem;
+    color: black;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Raleway', sans-serif;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
+}
+
 Button[type="submit"],
 input[type="submit"] {
     background: #2659e7;
@@ -16,6 +26,9 @@ input[type="submit"] {
     padding: 10px;
     font-size: 16px;
     font-weight: bold;
+    font-family: 'Nanum Gothic', sans-serif;
+    font-family: 'Raleway', sans-serif;
+    font-family: 'Zen Kaku Gothic Antique', sans-serif;
     letter-spacing: 6px;
     display: block;
     margin-left: auto;
