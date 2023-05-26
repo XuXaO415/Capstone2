@@ -101,7 +101,7 @@ function LoginForm({ login }) {
 
 <Container className="LoginForm">
   <div className="container mb-3">
-        <h1 className="mb-3">Sign Up</h1>
+        <h1 className="mb-3">Login</h1>
         <Form onSubmit={handleSubmit}>
        
             <Form.Group className="mb-3" controlId="formGridUsername">
