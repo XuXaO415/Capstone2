@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { useHistory, Redirect } from "react-router-dom";
+import { useHistory, Redirect, NavLink } from "react-router-dom";
 import Button from "react-bootstrap/Button";
 import Form from "react-bootstrap/Form";
 import Col from "react-bootstrap/Col";
@@ -429,99 +429,13 @@ function SignupForm({ register }) {
           <Button variant="primary" type="submit" onSubmit={handleSubmit}>
             Submit
           </Button>
+          <br />
         </Form>
+        <br />
+        <p className="mt-5 font-weight-bold">Already have an account? <NavLink to="login">Login</NavLink></p>
       </div>
     </Container>
   );
-
-  //   <Formik
-  //     validationSchema={validationSchema}
-  //     onSubmit={handleSubmit}
-  //     onChange={handleChange}
-  //     initialValues={{
-  //       username: "",
-  //       password: "",
-  //       passwordConfirm: "",
-  //       firstName: "",
-  //       lastName: "",
-  //       email: "",
-  //       city: "",
-  //       state: "",
-  //       zipCode: "",
-  //       hobbies: "",
-  //       interests: "",
-  //       // will add later
-  //       // profilePicture: "",
-  //     }}
-  //     >
-  //     {({ handleSubmit, handleChange, values, errors, touched }) => (
-
-  //       <Container className="SignupForm">
-  //       <Form  onSubmit={handleSubmit}>
-  //         <Row className="mb-3">
-  //         <h1>Sign Up</h1>
-  //           <Form.Group as={Col} md="4" controlId="formGridValidationUsername">
-  //             <Form.Label>Username</Form.Label>
-  //             <InputGroup hasValidation>
-  //               <Form.Control
-  //                 type="text"
-  //                 placeholder="Username"
-  //                 aria-describedby="inputGroupPrepend"
-  //                 name="username"
-  //                 value={formData.username}
-  //                 onChange={handleChange}
-  //                 isInvalid={touched.username && !!errors.username}
-  //               />
-  //               <Form.Control.Feedback type="invalid" >
-  //                 {errors.username}
-  //               </Form.Control.Feedback>
-  //             </InputGroup>
-  //           </Form.Group>
-  //           <Form.Group as={Col} md="4" controlId="formGridValidationPassword">
-  //             <Form.Label>Password</Form.Label>
-  //             <InputGroup hasValidation>
-  //               <Form.Control
-  //                 type="password"
-  //                 placeholder="Password"
-  //                 aria-describedby="inputGroupPrepend"
-  //                 name="password"
-  //                 value={formData.password}
-  //                 onChange={handleChange}
-  //                 isInvalid={touched.password && !!errors.password}
-  //               />
-  //               <Form.Control.Feedback type="invalid">
-  //                 {errors.password}
-  //               </Form.Control.Feedback>
-  //             </InputGroup>
-  //           </Form.Group>
-  //           <Form.Group as={Col} md="4" controlId="formGridValidationPasswordConfirm">
-  //             <Form.Label>Confirm Password</Form.Label>
-  //             <InputGroup hasValidation>
-  //               <Form.Control
-  //                 type="password"
-  //                 placeholder="Confirm Password"
-  //                 aria-describedby="inputGroupPrepend"
-  //                 name="passwordConfirm"
-  //                 value={values.passwordConfirm}
-  //                 onChange={handleChange}
-  //                 isInvalid={touched.passwordConfirm && !!errors.passwordConfirm}
-  //               />
-  //               <Form.Control.Feedback type="invalid">
-  //                 {errors.passwordConfirm}
-  //               </Form.Control.Feedback>
-  //             </InputGroup>
-  //           </Form.Group>
-  //       </Row>
-  //       <Row className="col-1">
-  //     <Button variant="primary" type="submit" onSubmit={handleSubmit}>
-  //       Submit
-  //       </Button>
-  //       </Row>
-  //       </Form>
-  //       </Container>
-  //     )}
-  //   </Formik>
-  // );
 }
 
 export default SignupForm;
